@@ -119,13 +119,6 @@ void Engine::Run()
 			// 입력 처리 (현재 키/마우스 입력 상태 확인).
 			ProcessInput();
 
-			// 업데이트 가능한 상태에서만 프레임 업데이트 처리.
-			//if (shouldUpdate)
-			//{
-			//	Update(deltaTime);
-			//	Draw();
-			//}
-
 			Update(deltaTime);
 			Draw();
 
@@ -140,9 +133,6 @@ void Engine::Run()
 			{
 				mainLevel->ProcessAddedAndDestroyedActor();
 			}
-
-			// 프레임 활성화.
-			//shouldUpdate = true;
 		}
 	}
 }
@@ -295,7 +285,6 @@ void Engine::Update(float deltaTime)
 void Engine::Clear()
 {
 	ClearImageBuffer();
-	//GetRenderer()->Clear();
 }
 
 void Engine::Draw()
@@ -345,7 +334,7 @@ void Engine::ClearImageBuffer()
 		}
 
 		// 각 줄 끝에 개행 문자 추가.
-		auto& buffer = imageBuffer[(y * (screenSize.x + 1)) + screenSize.x];
+		auto& buffer = imageBuffer[(y * (screenSize.x + 1)) + screenSize.x + 1];
 		buffer.Char.AsciiChar = '\n';
 		buffer.Attributes = 0;
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Level/Level.h"
+#include "Algorithm/AStar.h"
 
 class DemoLevel : public Level
 {
@@ -12,10 +13,12 @@ public:
 	~DemoLevel();
 
 	void AstarStart();
-	virtual void Update();
+	virtual void Update(float deltaTime);
 
 private:
 	AStar astar;
 	Actor* startActor;
 	Actor* playerActor;
+	std::vector<Node*> path;
+	std::vector<std::vector<int>> grid;
 };

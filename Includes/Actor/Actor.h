@@ -32,8 +32,7 @@ public:
 
 protected:
 	// 액터의 위치.
-	Vector2 pos
-		ition;
+	Vector2 position;
 
 	// ID(해시) / 이름 값.
 	// 활성화 상태인지를 나타내는 변수.
