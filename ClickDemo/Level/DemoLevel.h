@@ -19,6 +19,6 @@ private:
 	AStar astar;
 	Actor* startActor;
 	Actor* playerActor;
-	std::vector<Node*> path;
+	//std::vector<Node*> path;
 	std::vector<std::vector<int>> grid;
 };

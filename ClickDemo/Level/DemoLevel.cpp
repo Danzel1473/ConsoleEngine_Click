@@ -14,10 +14,10 @@ DemoLevel::DemoLevel()
 	//AddActor(new Start());
 	//AddActor(new Player());
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < Engine::Get().ScreenSize().y; ++i)
 	{
 		std::vector<int> row;
-		for (int j = 0; j < 30; ++j)
+		for (int j = 0; j < Engine::Get().ScreenSize().x; ++j)
 		{
 			row.emplace_back(0);
 		}
@@ -41,10 +41,10 @@ void DemoLevel::Update(float deltaTime)
 
 	if (Engine::Get().GetKeyDown(VK_SPACE))
 	{
-		Node* startNode = startNode = new Node(startActor->Position());
+		Node* startNode = new Node(startActor->Position());
 		Node* playerNode = new Node(playerActor->Position());
 		
-		path = astar.FindPath(startNode, playerNode, grid);
+		std::vector<Node*> path = astar.FindPath(startNode, playerNode, grid);
 		astar.DisplayGridWithPath(grid, path);
 	}
 }

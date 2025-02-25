@@ -20,7 +20,6 @@ public:
 	void AddActor(Actor* newActor);
 
 	// 삭제 요청이 된 액터를 정리하는 함수.
-	//void DestroyActor();
 	void ProcessAddedAndDestroyedActor();
 
 	// 루프 처리 함수.
