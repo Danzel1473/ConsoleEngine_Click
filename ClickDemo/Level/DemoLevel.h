@@ -12,8 +12,9 @@ public:
 	DemoLevel();
 	~DemoLevel();
 
-	void AstarStart();
+	virtual void Draw();
 	virtual void Update(float deltaTime);
+	void ResetGrid();
 
 private:
 	AStar astar;

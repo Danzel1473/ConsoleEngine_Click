@@ -13,26 +13,19 @@ DemoLevel::DemoLevel()
 	AddActor(playerActor);
 	//AddActor(new Start());
 	//AddActor(new Player());
-
-	for (int i = 0; i < Engine::Get().ScreenSize().y; ++i)
-	{
-		std::vector<int> row;
-		for (int j = 0; j < Engine::Get().ScreenSize().x; ++j)
-		{
-			row.emplace_back(0);
-		}
-		grid.emplace_back(row);
-	}
+	ResetGrid();
 }
 
 DemoLevel::~DemoLevel()
 {
-	playerActor->Destroy();
-	startActor->Destroy();
+	//playerActor->Destroy();
+	//startActor->Destroy();
 }
 
-void DemoLevel::AstarStart()
+void DemoLevel::Draw()
 {
+	Level::Draw();
+
 }
 
 void DemoLevel::Update(float deltaTime)
@@ -45,6 +38,43 @@ void DemoLevel::Update(float deltaTime)
 		Node* playerNode = new Node(playerActor->Position());
 		
 		std::vector<Node*> path = astar.FindPath(startNode, playerNode, grid);
-		astar.DisplayGridWithPath(grid, path);
+		if (path.size() > 0)
+		{
+			astar.DisplayGridWithPath(grid, path);
+			ResetGrid();
+		}
+		else
+		{
+			OutputDebugStringA("경로 못찾음!\n");
+		}
+	}
+}
+
+void DemoLevel::ResetGrid()
+{
+	if (grid.size() == 0)
+	{
+		for (int i = 0; i <= Engine::Get().ScreenSize().y; ++i)
+		{
+			std::vector<int> row;
+			row.reserve(Engine::Get().ScreenSize().x);
+			for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
+			{
+				row.emplace_back(0);
+			}
+			grid.emplace_back(row);
+		}
+	}
+
+	//grid.clear();
+	for (int i = 0; i <= Engine::Get().ScreenSize().y; ++i)
+	{
+		//std::vector<int> row(Engine::Get().ScreenSize().x);
+		for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
+		{
+			//row.emplace_back(0);
+			grid[i][j] = 0;
+		}
+		//grid[i] = row;
 	}
 }

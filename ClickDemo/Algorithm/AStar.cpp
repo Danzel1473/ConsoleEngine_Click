@@ -28,6 +28,19 @@ AStar::~AStar()
 
 std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::vector<std::vector<int>>& grid)
 {
+	// 메모리 해제.
+	for (Node* node : openList)
+	{
+		SafeDelete(node);
+	}
+	openList.clear();
+
+	for (Node* node : closedList)
+	{
+		SafeDelete(node);
+	}
+	closedList.clear();
+
 	this->startNode = startNode;
 	this->goalNode = goalNode;
 
@@ -199,7 +212,7 @@ bool AStar::HasVisited(int x, int y, float gCost)
 		if ((node->position.x == x && node->position.y == y))
 		{
 			// 위치가 같고, 비용이 더 크면 방문할 이유가 없기 때문에 방문했다고 판단.
-			if (gCost > node->gCost)
+			if (gCost >= node->gCost)
 			{
 				return true;
 			}
@@ -219,7 +232,7 @@ bool AStar::HasVisited(int x, int y, float gCost)
 		if ((node->position.x == x && node->position.y == y))
 		{
 			// 위치가 같고, 비용이 더 크면 방문할 이유가 없기 때문에 방문했다고 판단.
-			if (gCost > node->gCost)
+			if (gCost >= node->gCost)
 			{
 				return true;
 			}
