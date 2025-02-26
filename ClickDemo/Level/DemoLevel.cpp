@@ -6,6 +6,9 @@
 
 DemoLevel::DemoLevel()
 {
+	fileIO.SetFilePath("Map1.txt");
+	originalGrid = fileIO.GetMap();
+
 	startActor = new Start();
 	playerActor = new Player();
 
@@ -21,12 +24,23 @@ void DemoLevel::Draw()
 	if (!pathFind)
 	{
 		Level::Draw();
+		for (int y = 0; y < grid.size(); ++y)
+		{
+			for (int x = 0; x < grid[0].size(); ++x)
+			{
+				// 장애물.
+				if (grid[y][x] == 1)
+				{
+					Engine::Get().Draw(Vector2(x, y), "1");
+				}
+			}
+		}
 		return;
 	}
 
-	for (int y = 0; y < grid.size() - 1; ++y)
+	for (int y = 0; y < grid.size(); ++y)
 	{
-		for (int x = 0; x < grid[0].size() - 1; ++x)
+		for (int x = 0; x < grid[0].size(); ++x)
 		{
 			// 장애물.
 			if (grid[y][x] == 1)
@@ -100,27 +114,36 @@ void DemoLevel::Update(float deltaTime)
 
 void DemoLevel::ResetGrid()
 {
-	if (grid.size() == 0)
-	{
-		for (int i = 0; i <= Engine::Get().ScreenSize().y; ++i)
-		{
-			std::vector<int> row;
-			row.reserve(Engine::Get().ScreenSize().x);
-			for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
-			{
-				row.emplace_back(0);
-			}
-			grid.emplace_back(row);
-		}
-	}
+    if (originalGrid.empty()) return;
 
-	for (int i = 0; i <= Engine::Get().ScreenSize().y; ++i)
-	{
-		for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
-		{
-			grid[i][j] = 0;
-		}
-	}
+    // 원본 맵 데이터를 grid에 복사하여 초기화
+    grid = originalGrid;
 
-	path.clear();
+    path.clear();
 }
+//void DemoLevel::ResetGrid()
+//{
+//	if (grid.size() == 0)
+//	{
+//		for (int i = 0; i < Engine::Get().ScreenSize().y; ++i)
+//		{
+//			std::vector<int> row;
+//			row.reserve(Engine::Get().ScreenSize().x);
+//			for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
+//			{
+//				row.emplace_back(0);
+//			}
+//			grid.emplace_back(row);
+//		}
+//	}
+//
+//	for (int i = 0; i < Engine::Get().ScreenSize().y; ++i)
+//	{
+//		for (int j = 0; j < Engine::Get().ScreenSize().x; ++j)
+//		{
+//			grid[i][j] = 0;
+//		}
+//	}
+//
+//	path.clear();
+//}
