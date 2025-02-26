@@ -264,34 +264,5 @@ void AStar::DisplayGridWithPath(std::vector<std::vector<int>>& grid, const std::
 		grid[node->position.y][node->position.x] = 2;
 	}
 
-	Engine::Get().PathFind(grid);
-
-	//for (int y = 0; y < grid.size(); ++y)
-	//{
-	//	for (int x = 0; x < grid[0].size(); ++x)
-	//	{
-	//		// 장애물.
-	//		if (grid[y][x] == 1)
-	//		{
-	//			Engine::Get().Draw(Vector2(x, y), "1");
-	//			//std::cout << "1 ";
-	//		}
-
-	//		// 경로.
-	//		else if (grid[y][x] == 2)
-	//		{
-	//			Engine::Get().Draw(Vector2(x, y), "*");
-	//			//std::cout << "* ";
-	//		}
-
-	//		// 빈 공간.
-	//		else if (grid[y][x] == 0)
-	//		{
-	//			Engine::Get().Draw(Vector2(x, y), "0");
-	//			//std::cout << "0 ";
-	//		}
-	//	}
-
-	//	//Engine::Get().Draw(Vector2(y, x), "\n");
-	//}
+	//Engine::Get().PathFind(grid);
 }

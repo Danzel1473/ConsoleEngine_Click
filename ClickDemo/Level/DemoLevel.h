@@ -10,7 +10,6 @@ class DemoLevel : public Level
 
 public:
 	DemoLevel();
-	~DemoLevel();
 
 	virtual void Draw();
 	virtual void Update(float deltaTime);
@@ -20,6 +19,7 @@ private:
 	AStar astar;
 	Actor* startActor;
 	Actor* playerActor;
+	bool pathFind = false;
 	//std::vector<Node*> path;
 	std::vector<std::vector<int>> grid;
 };

@@ -11,21 +11,44 @@ DemoLevel::DemoLevel()
 
 	AddActor(startActor);
 	AddActor(playerActor);
-	//AddActor(new Start());
-	//AddActor(new Player());
-	ResetGrid();
-}
 
-DemoLevel::~DemoLevel()
-{
-	//playerActor->Destroy();
-	//startActor->Destroy();
+	ResetGrid();
 }
 
 void DemoLevel::Draw()
 {
-	Level::Draw();
+	// PathFind 모드가 아니라면 액터 그리기
+	if(!pathFind)
+		Level::Draw();
 
+	// PathFind 모드라면 경로 그리기
+	else
+	{
+		for (int y = 0; y < grid.size(); ++y)
+		{
+			for (int x = 0; x < grid[0].size(); ++x)
+			{
+				// 장애물.
+				if (grid[y][x] == 1)
+				{
+					Engine::Get().Draw(Vector2(x, y), "1");
+				}
+
+				// 경로.
+				else if (grid[y][x] == 2)
+				{
+					Engine::Get().Draw(Vector2(x, y), "*");
+				}
+
+				// 빈 공간.
+				else if (grid[y][x] == 0)
+				{
+					Engine::Get().Draw(Vector2(x, y), "0");
+				}
+			}
+			Engine::Get().Draw(Vector2(grid[0].size(), y), "\n");
+		}
+	}
 }
 
 void DemoLevel::Update(float deltaTime)
@@ -41,7 +64,10 @@ void DemoLevel::Update(float deltaTime)
 		if (path.size() > 0)
 		{
 			astar.DisplayGridWithPath(grid, path);
-			ResetGrid();
+			pathFind = !pathFind;
+
+			if(!pathFind)
+				ResetGrid();
 		}
 		else
 		{
@@ -66,15 +92,11 @@ void DemoLevel::ResetGrid()
 		}
 	}
 
-	//grid.clear();
 	for (int i = 0; i <= Engine::Get().ScreenSize().y; ++i)
 	{
-		//std::vector<int> row(Engine::Get().ScreenSize().x);
 		for (int j = 0; j <= Engine::Get().ScreenSize().x; ++j)
 		{
-			//row.emplace_back(0);
 			grid[i][j] = 0;
 		}
-		//grid[i] = row;
 	}
 }

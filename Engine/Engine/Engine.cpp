@@ -153,8 +153,7 @@ void Engine::AddActor(Actor* newActor)
 		return;
 	}
 
-	// 레벨에 액터 추가.
-	//shouldUpdate = false;
+	// 레벨에 액터 추가
 	mainLevel->AddActor(newActor);
 }
 
@@ -184,14 +183,6 @@ void Engine::Draw(const Vector2& position, const char* image, Color color)
 		imageBuffer[index].Char.AsciiChar = image[ix];
 		imageBuffer[index].Attributes = (unsigned long)color;
 	}
-}
-
-void Engine::PathFind(std::vector<std::vector<int>>& grid)
-{
-	pathFind = !pathFind;
-
-	if(pathFind)
-		this->grid = grid;
 }
 
 void Engine::SetTargetFrameRate(float targetFrameRate)
@@ -300,39 +291,8 @@ void Engine::Draw()
 	// 화면 지우기.
 	Clear();
 
-	// 경로 그리기
-	if (pathFind)
-	{
-		for (int y = 0; y < grid.size(); ++y)
-		{
-			for (int x = 0; x < grid[0].size(); ++x)
-			{
-				// 장애물.
-				if (grid[y][x] == 1)
-				{
-					Engine::Get().Draw(Vector2(x, y), "1");
-					//std::cout << "1 ";
-				}
-
-				// 경로.
-				else if (grid[y][x] == 2)
-				{
-					Engine::Get().Draw(Vector2(x, y), "*");
-					//std::cout << "* ";
-				}
-
-				// 빈 공간.
-				else if (grid[y][x] == 0)
-				{
-					Engine::Get().Draw(Vector2(x, y), "0");
-					//std::cout << "0 ";
-				}
-			}
-			Engine::Get().Draw(Vector2(y, grid[0].size()), "\n");
-		}
-	}
 	// 레벨 그리기.
-	else if (mainLevel != nullptr)
+	if (mainLevel != nullptr)
 	{
 		mainLevel->Draw();
 	}

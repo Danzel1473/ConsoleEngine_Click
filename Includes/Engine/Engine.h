@@ -37,13 +37,8 @@ public:
 
 	// 화면 좌표 관련 함수.
 	void SetCursorType(CursorType cursorType);
-	//void SetCursorPosition(const Vector2& position);
-	//void SetCursorPosition(int x, int y);
 
 	void Draw(const Vector2& position, const char* image, Color color = Color::White);
-
-	// pathFind 변수 변경
-	void PathFind(std::vector<std::vector<int>>& grid);
 
 	// 화면 크기 반환 함수.
 	inline Vector2 ScreenSize() const { return screenSize; }
@@ -85,11 +80,6 @@ protected:
 
 	// 한 프레임 시간 값(단위: 초).
 	float targetOneFrameTime = 0.0f;
-
-	// 경로찾기 변수
-	bool pathFind = false;
-
-	std::vector<std::vector<int>> grid;
 
 	// 종료할 때 설정할 변수.
 	bool quit;
