@@ -21,34 +21,30 @@ void DemoLevel::Draw()
 	if (!pathFind)
 	{
 		Level::Draw();
+		return;
 	}
 
-	// PathFind 모드라면 경로 그리기
-	else
+	for (int y = 0; y < grid.size() - 1; ++y)
 	{
-		for (int y = 0; y < grid.size(); ++y)
+		for (int x = 0; x < grid[0].size() - 1; ++x)
 		{
-			for (int x = 0; x < grid[0].size(); ++x)
+			// 장애물.
+			if (grid[y][x] == 1)
 			{
-				// 장애물.
-				if (grid[y][x] == 1)
-				{
-					Engine::Get().Draw(Vector2(x, y), "1");
-				}
-
-				// 경로.
-				else if (grid[y][x] == 2)
-				{
-					Engine::Get().Draw(Vector2(x, y), "*");
-				}
-
-				// 빈 공간.
-				else if (grid[y][x] == 0)
-				{
-					Engine::Get().Draw(Vector2(x, y), " ");
-				}
+				Engine::Get().Draw(Vector2(x, y), "1");
 			}
-			Engine::Get().Draw(Vector2(grid[0].size(), y), "\n");
+
+			// 경로.
+			else if (grid[y][x] == 2)
+			{
+				Engine::Get().Draw(Vector2(x, y), "*");
+			}
+
+			// 빈 공간.
+			else if (grid[y][x] == 0)
+			{
+				Engine::Get().Draw(Vector2(x, y), " ");
+			}
 		}
 	}
 }
@@ -92,7 +88,6 @@ void DemoLevel::Update(float deltaTime)
 				{
 					ResetGrid();
 				}
-					
 			}
 			else
 			{

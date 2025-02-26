@@ -12,7 +12,6 @@ public:
 	DemoLevel();
 	virtual ~DemoLevel()
 	{
-
 	}
 
 	virtual void Draw();
@@ -22,11 +21,11 @@ public:
 private:
 	float elapsedTime = 0.0f;
 	float pathFindTime = 0.2f;
+	bool pathFind = false;
 	AStar astar;
 	Actor* startActor;
 	Actor* playerActor;
-	bool pathFind = false;
-	//std::vector<Node*> path;
+
 	std::vector<std::vector<int>> grid;
 	std::vector<Node*> path;
 };
