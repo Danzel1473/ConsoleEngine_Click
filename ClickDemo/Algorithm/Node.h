@@ -14,6 +14,8 @@ public:
 
 	~Node() = default;
 
+	Vector2 Position() const { return position; }
+
 	Vector2 operator-(const Node& other)
 	{
 		return position - other.position;

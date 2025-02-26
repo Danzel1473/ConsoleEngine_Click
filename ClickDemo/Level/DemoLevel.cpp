@@ -18,8 +18,10 @@ DemoLevel::DemoLevel()
 void DemoLevel::Draw()
 {
 	// PathFind 모드가 아니라면 액터 그리기
-	if(!pathFind)
+	if (!pathFind)
+	{
 		Level::Draw();
+	}
 
 	// PathFind 모드라면 경로 그리기
 	else
@@ -43,7 +45,7 @@ void DemoLevel::Draw()
 				// 빈 공간.
 				else if (grid[y][x] == 0)
 				{
-					Engine::Get().Draw(Vector2(x, y), "0");
+					Engine::Get().Draw(Vector2(x, y), " ");
 				}
 			}
 			Engine::Get().Draw(Vector2(grid[0].size(), y), "\n");
@@ -55,25 +57,50 @@ void DemoLevel::Update(float deltaTime)
 {
 	Level::Update(deltaTime);
 
+	if (pathFind)
+	{
+		// 타이머 계산
+		elapsedTime += deltaTime;
+		if (elapsedTime < pathFindTime) return;
+
+		// 타이머 리셋
+		elapsedTime = 0.0f;
+
+		if (path.empty())
+		{
+			ResetGrid();
+			pathFind = false;
+			return;
+		}
+
+		grid[path[0]->Position().y][path[0]->Position().x] = 2;
+		path.erase(path.begin());
+	}
+
 	if (Engine::Get().GetKeyDown(VK_SPACE))
 	{
 		Node* startNode = new Node(startActor->Position());
 		Node* playerNode = new Node(playerActor->Position());
 		
-		std::vector<Node*> path = astar.FindPath(startNode, playerNode, grid);
-		if (path.size() > 0)
+		path = astar.FindPath(startNode, playerNode, grid);
+		if (!pathFind)
 		{
-			astar.DisplayGridWithPath(grid, path);
-			pathFind = !pathFind;
-
-			if(!pathFind)
-				ResetGrid();
-		}
-		else
-		{
-			OutputDebugStringA("경로 못찾음!\n");
+			if (path.size() > 0)
+			{
+				pathFind = true;
+				if (!pathFind)
+				{
+					ResetGrid();
+				}
+					
+			}
+			else
+			{
+				OutputDebugStringA("경로 못찾음!\n");
+			}
 		}
 	}
+
 }
 
 void DemoLevel::ResetGrid()
@@ -99,4 +126,6 @@ void DemoLevel::ResetGrid()
 			grid[i][j] = 0;
 		}
 	}
+
+	path.clear();
 }

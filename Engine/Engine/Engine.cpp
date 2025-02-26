@@ -69,6 +69,11 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	if (_heapchk() != _HEAPOK)
+	{
+		__debugbreak();
+	}
+
 	// 메인 레벨 메모리 해제.
 	if (mainLevel != nullptr)
 	{
@@ -95,6 +100,11 @@ void Engine::Run()
 
 	int64_t currentTime = time.QuadPart;
 	int64_t previousTime = currentTime;
+
+	if (_heapchk() != _HEAPOK)
+	{
+		DebugBreak();
+	}
 
 	// Game-Loop.
 	while (true)
@@ -290,7 +300,6 @@ void Engine::Draw()
 {
 	// 화면 지우기.
 	Clear();
-
 	// 레벨 그리기.
 	if (mainLevel != nullptr)
 	{
