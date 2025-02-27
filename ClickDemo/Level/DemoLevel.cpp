@@ -6,8 +6,7 @@
 
 DemoLevel::DemoLevel()
 {
-	fileIO.SetFilePath("Map1.txt");
-	originalGrid = fileIO.GetMap();
+	originalGrid = fileIO.LoadMap();
 
 	startActor = new Start();
 	playerActor = new Player();
@@ -23,7 +22,6 @@ void DemoLevel::Draw()
 	// PathFind 모드가 아니라면 액터 그리기
 	if (!pathFind)
 	{
-		Level::Draw();
 		for (int y = 0; y < grid.size(); ++y)
 		{
 			for (int x = 0; x < grid[0].size(); ++x)
@@ -33,8 +31,14 @@ void DemoLevel::Draw()
 				{
 					Engine::Get().Draw(Vector2(x, y), "1");
 				}
+				// 빈 공간.
+				else if (grid[y][x] == 0)
+				{
+					Engine::Get().Draw(Vector2(x, y), " ");
+				}
 			}
 		}
+		Level::Draw();
 		return;
 	}
 
@@ -51,7 +55,7 @@ void DemoLevel::Draw()
 			// 경로.
 			else if (grid[y][x] == 2)
 			{
-				Engine::Get().Draw(Vector2(x, y), "*");
+				Engine::Get().Draw(Vector2(x, y), "*", Color::Blue);
 			}
 
 			// 빈 공간.
@@ -66,6 +70,25 @@ void DemoLevel::Draw()
 void DemoLevel::Update(float deltaTime)
 {
 	Level::Update(deltaTime);
+
+	if (Engine::Get().GetKeyDown(VK_TAB))
+	{
+		Vector2 position = Engine::Get().MousePosition();
+		if (grid[position.y][position.x] == 0)
+		{
+			grid[position.y][position.x] = 1;
+		}
+		else if (grid[position.y][position.x] == 1)
+		{
+			grid[position.y][position.x] = 0;
+		}
+		originalGrid = grid;
+	}
+
+	if (Engine::Get().GetKeyDown(VK_SHIFT))
+	{
+		fileIO.SaveMap(originalGrid);
+	}
 
 	if (pathFind)
 	{

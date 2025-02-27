@@ -11,9 +11,6 @@ class DemoLevel : public Level
 
 public:
 	DemoLevel();
-	virtual ~DemoLevel()
-	{
-	}
 
 	virtual void Draw();
 	virtual void Update(float deltaTime);

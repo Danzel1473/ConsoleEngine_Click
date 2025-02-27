@@ -1,12 +1,7 @@
 #include "FileIO.h"
 #include <iostream>
 
-FileIO::FileIO(std::string fileName)
-{
-	SetFilePath(fileName);
-}
-
-std::vector<std::vector<int>> FileIO::GetMap()
+std::vector<std::vector<int>> FileIO::LoadMap()
 {
 	std::vector<std::vector<int>> map;
 	const char* fp = filePath.c_str();
@@ -19,18 +14,18 @@ std::vector<std::vector<int>> FileIO::GetMap()
 		return map;
 	}
 
-	char buffer[1024]; // 한 줄을 저장할 버퍼
+	char buffer[1024];
 
-	while (fgets(buffer, sizeof(buffer), file)) // 한 줄씩 읽기
+	while (fgets(buffer, sizeof(buffer), file))
 	{
 		std::vector<int> row;
-		char* context = nullptr; // strtok_s에서 사용될 context 변수
-		char* token = strtok_s(buffer, ",", &context); // 첫 번째 토큰 추출
+		char* context = nullptr;
+		char* token = strtok_s(buffer, ",", &context);
 
 		while (token != nullptr)
 		{
-			row.push_back(atoi(token)); // 문자열을 정수로 변환하여 추가
-			token = strtok_s(nullptr, ",", &context); // 다음 토큰 추출
+			row.push_back(atoi(token));
+			token = strtok_s(nullptr, ",", &context);
 		}
 
 		map.push_back(row);
@@ -40,7 +35,31 @@ std::vector<std::vector<int>> FileIO::GetMap()
 	return map;
 }
 
-void FileIO::SetFilePath(std::string fileName)
+bool FileIO::SaveMap(const std::vector<std::vector<int>>& map)
 {
-	filePath = "../Maps/" + fileName;
+	FILE* file = nullptr;
+	const char* fp = filePath.c_str();
+	fopen_s(&file, fp, "wt");
+
+	if (!file || map.size() < 1) 
+	{
+		__debugbreak();
+		return false;
+	}
+
+	for (size_t i = 0; i < map.size(); ++i) 
+	{
+		for (size_t j = 0; j < map[i].size(); ++j) 
+		{
+			fprintf(file, "%d", map[i][j]);
+			if (j < map[i].size() - 1) 
+			{
+				fprintf(file, ",");
+			}
+		}
+		fprintf(file, "\n");
+	}
+
+	fclose(file);
+	return true;
 }

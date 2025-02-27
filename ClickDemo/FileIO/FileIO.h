@@ -9,10 +9,10 @@ class FileIO
 {
 public:
 	FileIO() = default;
-	FileIO(std::string mapName);
-	std::vector<std::vector<int>> GetMap();
-	void SetFilePath(std::string fileName);
+
+	std::vector<std::vector<int>> LoadMap();
+	bool SaveMap(const std::vector<std::vector<int>>& map);
 	
 private:
-	std::string filePath;
+	std::string filePath = "../Maps/Map.txt";
 };
